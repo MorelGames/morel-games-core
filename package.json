@@ -1,0 +1,32 @@
+{
+  "name": "morel-games-core",
+  "version": "1.0.0",
+  "description": "Common front-end components and logics for all Morel browser minigames.",
+  "main": "src/index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {
+    "buefy": "^0.8.13",
+    "vue": "^2.6.11",
+    "vuex": "^3.1.3"
+  },
+  "engines": {
+    "node": ">= 10.0.0",
+    "npm": ">= 6.0.0"
+  },
+  "esm": {
+    "mode": "all"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Amaury Carrade <amaury@carrade.eu>",
+  "license": "CECILL-B",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MorelGames/morel-games-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MorelGames/morel-games-core/issues"
+  }
+}
