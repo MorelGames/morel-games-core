@@ -2,7 +2,7 @@
   <section class="share-game">
     <header>
       <h3>
-        <slot name="title">Partager la partie</slot>
+        <slot name="title">{{ $t("Share game") }}</slot>
       </h3>
       <slot name="lock">
         <b-tooltip :label="lock_tooltip" position="is-bottom" :type="type" :class="{'is-static': !master}">
@@ -27,21 +27,20 @@
       </b-input>
       <p class="control copy-button">
         <b-tooltip
-          :label="copied ? 'Copié !' : 'Copier dans le presse-papier'"
+          :label="copied ? $t('Copied!') : $t('Copy link to clipboard')"
           position="is-bottom"
           :type="type"
           multilined
         >
           <b-button class="button" :type="type" icon-left="clipboard" @click.stop.prevent="copy_url" :expanded="true">
-            Copier le lien
+            {{ $t("Copy game link") }}
           </b-button>
         </b-tooltip>
       </p>
     </b-field>
     <p class="share-invite">
       <slot name="invite">
-        Invitez les autres joueurs à ouvrir cette adresse dans leur navigateur
-        pour rejoindre cette partie.
+        {{ $t("Invite other players to open this link in their browser to join this game.") }}
       </slot>
     </p>
   </section>
@@ -73,10 +72,12 @@ export default {
       master: state => state.master
     }),
     lock_tooltip() {
+      const $t = this.$t.bind(this)
+
       if (this.master) {
-        return this.locked ? 'Déverrouiller la partie' : 'Verrouiller la partie';
+        return this.locked ? $t("Unlock the game") : $t("Lock the game")
       } else {
-        return this.locked ? 'Partie verrouillée' : 'Partie déverrouillée';
+        return this.locked ? $t("Game locked") : $t("Game unlocked")
       }
     }
   },

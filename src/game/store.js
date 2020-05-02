@@ -1,14 +1,14 @@
 const Vue = require('vue').default
 const Snackbar = require('buefy').SnackbarProgrammatic
 
-console.log(Vue)
-
 /**
  * A Vuex module with game data inside.
  *
  * @param {MorelClient} client The Morel Client instance for the current game.
  */
-exports.MorelStore = function(client) {
+exports.MorelStore = function(client, i18n) {
+  const $t = i18n ? i18n.i18n.t.bind(i18n.i18n) : message => message
+
   return {
     namespaced: true,
 
@@ -108,7 +108,19 @@ exports.MorelStore = function(client) {
       error: {
         title: null,
         description: null
-      }
+      },
+
+      /**
+       * An object containing the avaliable locales for this application. Keys
+       * are locale codes (e.g. “fr”), and values, locales' *local* names (e.g.
+       * “Français”).
+       */
+      locales: {},
+
+      /**
+       * `true` if a locale is being loaded.
+       */
+      locale_loading: false
     },
 
     getters:  {
@@ -306,7 +318,18 @@ exports.MorelStore = function(client) {
              description: error.description || null
            }
          }
-       }
+       },
+
+       /**
+        * Sets available locales in the application.
+        * See state.locales documentation for format.
+        */
+       set_locales: (s, locales) => s.locales = locales,
+
+       /**
+        * Sets if a locale is being loaded.
+        */
+       set_locale_loading: (s, loading) => s.locale_loading = loading
     },
 
     actions: {
@@ -318,7 +341,7 @@ exports.MorelStore = function(client) {
        */
       set_pseudonym_and_connect(context, pseudonym) {
         context.commit("set_pseudonym", pseudonym);
-        context.commit("set_loading", "Connexion à la partie…");
+        context.commit("set_loading", $t("Connecting…"));
 
         context.commit("set_kick_reason", null);
 
@@ -336,10 +359,10 @@ exports.MorelStore = function(client) {
             context.commit("set_loading", false);
 
             Snackbar.open({
-              message: "Impossible de se connecter à la partie.",
+              message: $t("Unable to connect to the game."),
               indefinite: true,
               type: "is-danger",
-              actionText: "Réessayer",
+              actionText: $t("Retry"),
               onAction: () =>
                 store.dispatch("set_pseudonym_and_connect", pseudonym)
             });
@@ -352,7 +375,7 @@ exports.MorelStore = function(client) {
         // If the player was connected to a different game than asked
         if (context.state.slug && slug_changed && context.state.phase === "CONFIG") {
           Snackbar.open({
-            message: `Vous avez demandé à rejoindre une partie, mais celle-ci n'existait pas. Nous en avons créé une nouvelle pour vous.`,
+            message: $t("You asked to join non-existant game. We created a new one for you."),
             queue: false,
             actionText: null,
             duration: 5000
@@ -394,7 +417,7 @@ exports.MorelStore = function(client) {
 
         if (context.state.phase !== "CONFIG" && !player.ourself) {
           Snackbar.open({
-            message: `${player.pseudonym} a rejoint la partie`,
+            message: $t("{name} joined the game", { name: player.pseudonym }),
             queue: false,
             actionText: null
           });
@@ -415,7 +438,7 @@ exports.MorelStore = function(client) {
         }
 
         Snackbar.open({
-          message: `${player.pseudonym} a quitté la partie`,
+          message: $t("{name} left the game", { name: player.pseudonym }),
           queue: false,
           actionText: null
         });
@@ -427,7 +450,7 @@ exports.MorelStore = function(client) {
 
         if (context.state.master) {
           Snackbar.open({
-            message: `Vous êtes désormais maître de la partie !`,
+            message: $t("You are now the Game Master"),
             queue: false,
             actionText: null
           });
@@ -471,9 +494,9 @@ exports.MorelStore = function(client) {
       disconnected_from_socket(context) {
         if (!context.state.loading) {
           context.commit("set_loading", {
-            title: "Reconnexion en cours…",
+            title: $t("Reconnecting…"),
             description:
-              "La connexion a été perdue, mais nous essayons de corriger le problème.<br /> <strong>Si ça ne fonctionne pas au bout d'une dizaine de secondes, essayez d'actualiser la page</strong> — vous ne perdrez pas votre progression dans la partie."
+              $t("The connection was lost, but we're trying to fix this problem.") + "<br />" + $t("<strong>If it doesn't work after a few seconds, try to reload the page</strong>—you won't lose your progress in the game.")
           });
         }
       },
@@ -484,10 +507,15 @@ exports.MorelStore = function(client) {
 
       reload_required(context) {
         context.commit("set_error", {
-          title: "Connexion à la partie perdue.",
+          title: $t("Connection lost."),
           description:
-            "<strong>Veuillez actualiser la page pour continuer.</strong><br />Le serveur de jeu a été redémarré, ou bien vous êtes resté inactif⋅ve (beaucoup) trop longtemps. Sans action de votre part, la page s'actualisera automatiquement sous dix secondes."
+            "<strong>" + $t("Reload the page to continue.") + "</strong><br />" + $t("The game server was restarted, or you stayed inactive (way) too long. The page will reload automatically in ten seconds.")
         });
+      },
+
+      set_locale(context, locale) {
+        context.commit("set_locale_loading", true)
+        i18n.load_locale(locale).then(() => context.commit("set_locale_loading", false))
       }
     }
   }

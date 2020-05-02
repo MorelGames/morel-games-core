@@ -44,7 +44,7 @@
             }"
             >{{ player.pseudonym }}</span
           >
-          <span class="is-size-7 ourself-mark" v-if="player.ourself">(vous)</span>
+          <span class="is-size-7 ourself-mark" v-if="player.ourself">{{ $t('(you)') }}</span>
         </slot>
       </div>
 
@@ -60,12 +60,12 @@
 
       <template v-if="defaultIcons">
         <morel-player-action
-          label="Expulser ce joueur"
+          :label="$t('Kick this player')"
           icon="user-alt-slash"
           v-if="we_are_master && !player.master && player.online"
           @click="kick_player(player.uuid)" />
         <morel-player-action
-          :label="player.master ? 'Maître du jeu' : 'Passer maître du jeu'"
+          :label="player.master ? $t('Game Master') : $t('Promote as Game Master')"
           icon="user-shield"
           :permanent="player.master"
           v-if="player.master || (we_are_master && player.online)"
@@ -213,33 +213,35 @@ export default {
       let player = this.players[uuid]
       if (!player || !player.online) return
 
+      const $t = this.$t.bind(this)
+
       let message = this.replace_name(
         this.masterConfirmMessage,
-        "<strong>{name}</strong> pourra gérer la partie et sa configuration. Vous perdrez ces pouvoirs.",
+        $t("<strong>{name}</strong> will be able to manage the game and its configuration. You'll lose those powers."),
         player.pseudonym
       )
 
       let help = this.replace_name(
         this.masterConfirmHelp,
-        "Le maître de la partie ne peut pas tricher, uniquement gérer la partie. Il ou elle peut également expulser des joueurs et verrouiller la partie.",
+        $t("The game master cannot cheat, only manage the game. It can also kick players and lock the game."),
         player.pseudonym
       )
 
       this.$buefy.dialog.confirm({
         title: this.replace_name(
           this.masterConfirmTitle,
-          "Donner le pouvoir à {name} ?",
+          $t("Promote {name}?"),
           player.pseudonym
         ),
         message: `${message}<br /><br /><span class="has-text-grey">${help}</span>`,
         confirmText: this.replace_name(
           this.masterConfirmButtonYes,
-          "Donner le pouvoir",
+          $t("Promote"),
           player.pseudonym
         ),
         cancelText: this.replace_name(
           this.masterConfirmButtonNo,
-          "Garder le pouvoir à soi",
+          $t("Stay Game Master"),
           player.pseudonym
         ),
 
@@ -260,37 +262,39 @@ export default {
       let player = this.players[uuid]
       if (!player || !player.online) return
 
+      const $t = this.$t.bind(this)
+
       let message = this.replace_name(
         this.kickConfirmMessage,
         this.locked
-          ? "<strong>{name}</strong> ne pourra pas se reconnecter tant que la partie est verrouillée."
-          : "<strong>{name}</strong> quittera la partie, mais pourra toujours se reconnecter, car la partie n'est pas verrouillée.",
+          ? $t("<strong>{name}</strong> will be unable to join as long as the game is locked.")
+          : $t("<strong>{name}</strong> will left the game, but will be able to re-join as the game is not locked."),
         player.pseudonym
       )
 
       let help = this.replace_name(
         this.kickConfirmHelp,
         this.locked
-          ? "Pour déverrouiller la partie, utilisez l'icône cadenas au dessus du bouton de partage de la partie."
-          : "Vous pouvez verrouiller la partie grâce à l'icône cadenas au dessus du bouton de partage de la partie.",
+          ? $t("To unlock the game, use the lock icon above the share game button.")
+          : $t("You can lock the game with the lock icon above the share game button."),
         player.pseudonym
       )
 
       this.$buefy.dialog.confirm({
         title: this.replace_name(
           this.kickConfirmTitle,
-          "Expulser {name} ?",
+          $t("Kick {name}?"),
           player.pseudonym
         ),
         message: `${message}<br /><br /><span class="has-text-grey">${help}</span>`,
         confirmText: this.replace_name(
           this.kickConfirmButtonYes,
-          "Expulser",
+          $t("Kick"),
           player.pseudonym
         ),
         cancelText: this.replace_name(
           this.kickConfirmButtonNo,
-          "J'ai changé d'avis",
+          $t("I changed my mind"),
           player.pseudonym
         ),
 

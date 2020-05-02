@@ -2,7 +2,8 @@ const components = {
   "share-game": require('./ShareGame.vue').default,
   "players": require('./Players.vue').default,
   "player-action": require('./PlayerAction.vue').default,
-  "ask-pseudonym": require('./AskPseudonym.vue').default
+  "ask-pseudonym": require('./AskPseudonym.vue').default,
+  "locale-switcher": require('./LocaleSwitcher.vue').default,
 }
 
 exports.default = {

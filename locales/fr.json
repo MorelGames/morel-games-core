@@ -1,0 +1,56 @@
+{
+  "What's your name?": "Comment doit-on vous appeler ?",
+  "Join the game": "Se connecter au salon de jeu",
+  "Enter your name…": "Entrez votre nom…",
+  "You're joining an existing game.": "Vous rejoignez une partie existante.",
+  "If you wish, you can also {create_new_game}.": "Si vous le désirez, vous pouvez également {create_new_game}.",
+  "create a new game": "créer une nouvelle partie",
+  "You cannot join this game because it's locked.": "Vous ne pouvez pas rejoindre cette partie car elle est verrouillée.",
+  "You got kicked out of the game.": "Vous avez été expulsé⋅e de cette partie.",
+  "Create a new game": "Créer une nouvelle partie",
+
+  "(you)": "(vous)",
+  "Kick this player": "Expulser ce joueur",
+  "Game Master": "Maître du jeu",
+  "Promote as Game Master": "Promouvoir maître du jeu",
+
+  "Promote {name}?": "Donner le pouvoir à {name} ?",
+  "<strong>{name}</strong> will be able to manage the game and its configuration. You'll lose those powers.": "<strong>{name}</strong> pourra gérer la partie et sa configuration. Vous perdrez ces pouvoirs.",
+  "The game master cannot cheat, only manage the game. It can also kick players and lock the game.": "le maître du jeu ne peux pas tricher, uniquement gérer la partie. Il ou elle peut également expulser des joueurs et verrouiller la partie.",
+  "Promote": "Donner le pouvoir",
+  "Stay Game Master": "Garder le pouvoir à soi",
+
+  "Kick {name}?": "Expulser {name} ?",
+  "<strong>{name}</strong> will be unable to join as long as the game is locked.": "<strong>{name}</strong> ne pourra plus se reconnecter tant que la partie est verrouillée.",
+  "<strong>{name}</strong> will left the game, but will be able to re-join as the game is not locked.": "<strong>{name}</strong> quittera la partie, mais pourra toujours se reconnecter, car la partie n'est pas verrouillée.",
+  "To unlock the game, use the lock icon above the share game button.": "Pour déverrouiller la partie, utilisez l'icône en forme de cadenas au dessus du bouton de partage de la partie.",
+  "You can lock the game with the lock icon above the share game button.": "Vous pouvez verrouiller la partie grâce à l'icône en forme de cadenas au dessus du bouton de partage de la partie.",
+  "Kick": "Expulser",
+  "I changed my mind": "J'ai changé d'avis",
+
+  "Share game": "Partager la partie",
+  "Copy game link": "Copier le lien",
+  "Copy link to clipboard": "Copier dans le presse-papier",
+  "Copied!": "Copié !",
+  "Invite other players to open this link in their browser to join this game.": "Invitez les autres joueurs à ouvrir cette adresse dans leur navigateur pour rejoindre cette partie.",
+
+  "Unlock the game": "Déverrouiller la partie",
+  "Lock the game": "Verrouiller la partie",
+  "Game locked": "Partie verrouillée",
+  "Game unlocked": "Partie déverrouillée",
+
+  "Connecting…": "Connexion à la partie en cours…",
+  "Unable to connect to the game.": "Impossible de se connecter à la partie.",
+  "Retry": "Réessayer",
+  "You asked to join non-existant game. We created a new one for you.": "La partie que vous désiriez rejoindre n'existe pas ou plus. Nous en avons créé une nouvelle pour vous.",
+
+  "{name} joined the game": "{name} a rejoint la partie",
+  "{name} left the game": "{name} a quitté la partie",
+  "You are now the Game Master": "Vous êtes désormais maître du jeu",
+  "Reconnecting…": "Reconnexion en cours…",
+  "The connection was lost, but we're trying to fix this problem.": "La connexion a été perdue, mais nous tentons de corriger le problème.",
+  "<strong>If it doesn't work after a few seconds, try to reload the page</strong>—you won't lose your progress in the game.": "<strong>Si ça ne fonctionne toujours pas d'ici quelques secondes, tentez de recharger la page</strong> — vous ne perdrez pas votre progression dans la partie.",
+  "Connection lost.": "Connexion à la partie perdue.",
+  "Reload the page to continue.": "Rechargez la page pour continuer.",
+  "The game server was restarted, or you stayed inactive (way) too long. The page will reload automatically in ten seconds.": "Le serveur de jeu a été redémarré, ou vous êtes resté⋅e inactif⋅ve bien trop longtemps. Sans action de votre part, la page s'actualisera automatiquement dans dix secondes."
+}

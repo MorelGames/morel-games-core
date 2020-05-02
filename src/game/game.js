@@ -116,12 +116,10 @@ exports.MorelClient = class {
       };
 
       this.client.onopen = () => {
-        console.info('WS connection ready.');
         resolve();
       };
 
       this.client.onclose = () => {
-        console.warn('WS connection closed.');
         this.client.close();
 
         if (!this.kicked) {
@@ -144,19 +142,10 @@ exports.MorelClient = class {
         try {
           data = JSON.parse(message.data);
         } catch (error) {
-          console.error(
-            'Ignored invalid message received through websocket.',
-            message,
-            error
-          );
           return;
         }
 
         if (!data.action) {
-          console.warn(
-            'Ignored malformed message received through websocket (missing action).',
-            message
-          );
           return;
         }
 
@@ -220,13 +209,9 @@ exports.MorelClient = class {
    */
   handle_message(action, message) {
     let method_name = 'message_in_' + action.replace(/\-/g, '_').trim().toLowerCase()
-    console.debug(`Received message with action “${action}”; calling method ${method_name}()…`)
 
     if (typeof this[method_name] === 'function') {
       this[method_name](message);
-    }
-    else {
-      console.debug('    … oh no, not found')
     }
   }
 

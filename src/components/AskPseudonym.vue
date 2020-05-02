@@ -1,10 +1,10 @@
 <template>
   <div class="ask-pseudonym">
     <b-field :custom-class="size" :position="position">
-      <template slot="label">{{ label }}</template>
+      <template slot="label">{{ $t(label) }}</template>
       <b-field :type="unfilled_error ? 'is-danger' : type">
         <b-input
-          :placeholder="placeholder"
+          :placeholder="$t(placeholder)"
           :size="size + ' is-expanded'"
           :maxlength="maxlength"
           v-model.trim="pseudonym"
@@ -15,7 +15,7 @@
           <button
             class="button"
             :class="[size, type]"
-            :aria-label="labelButton"
+            :aria-label="$t(labelButton)"
             @click="start_game"
           >
             <b-icon icon="chevron-right"></b-icon>
@@ -23,21 +23,22 @@
         </p> </b-field
     ></b-field>
     <p class="joining-existing-game" v-if="is_existing_game && !kick_reason">
-      Vous rejoignez une partie existante.<br />
-      Si vous le désirez, vous pouvez également
-      <a href="#" @click.prevent="erase_slug">créer une nouvelle partie</a>.
+      {{ $t("You're joining an existing game.")}}<br />
+      <i18n path="If you wish, you can also {create_new_game}.">
+        <a href="#" @click.prevent="erase_slug" slot="create_new_game">{{ $t("create a new game") }}</a>
+      </i18n>
     </p>
     <b-message v-if="kick_reason" type="is-danger" class="kick-reason">
       <p>
         <template v-if="kick_reason === 'locked'">
-          Vous ne pouvez pas rejoindre cette partie car elle est verrouillée.
+          {{ $t("You cannot join this game because it's locked.") }}
         </template>
         <template v-else>
-          Vous avez été expulsé⋅e de cette partie.
+          {{ $t("You got kicked out of the game.") }}
         </template>
       </p>
       <p>
-        <b-button type="is-danger" @click="create_new_game">Créer une nouvelle partie</b-button>
+        <b-button type="is-danger" @click="create_new_game">{{ $t("Create a new game") }}</b-button>
       </p>
     </b-message>
   </div>
@@ -52,7 +53,7 @@ export default {
      */
     label: {
       type: String,
-      default: "Comment doit-on vous appeler\xa0?"
+      default: "What's your name?"
     },
 
     /**
@@ -60,7 +61,7 @@ export default {
      */
     "label-button": {
       type: String,
-      default: "Se connecter au salon de jeu"
+      default: "Join the game"
     },
 
     /**
@@ -68,7 +69,7 @@ export default {
      */
     placeholder: {
       type: String,
-      default: "Entrez votre nom…"
+      default: "Enter your name…"
     },
 
     /**
