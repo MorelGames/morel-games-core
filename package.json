@@ -21,7 +21,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Amaury Carrade <amaury@carrade.eu>",
+  "author": "Amaury Carrade <amaury@carrade.eu> (https://amaury.carrade.eu)",
   "license": "CECILL-B",
   "repository": {
     "type": "git",
