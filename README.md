@@ -30,7 +30,7 @@ import { MorelClient } from "morel-games-core"
 
 export default class GameClient extends MorelClient {
   message_in_my_action(message) {
-    this.send_message("the-answer", { answer: 42 })
+    this.send_message("the-answer", { answer: 42, music: "The Beatles" })
   }
 }
 ```
@@ -38,7 +38,7 @@ export default class GameClient extends MorelClient {
 ### Main
 
 ```js
-import Vue from "vue";
+import Vue from "vue"
 import Vuex from "vuex"
 import Buefy from "buefy"
 
@@ -84,12 +84,15 @@ library.add(
 )
 
 // Vue components registration
+
 Vue.use(Vuex)
 Vue.use(MorelVue)
 Vue.use(Buefy, {
   defaultIconComponent: "vue-fontawesome",
   defaultIconPack: "fas"
 })
+
+Vue.component("vue-fontawesome", FontAwesomeIcon)
 
 // Client & I18n instanciation
 
@@ -404,7 +407,7 @@ library.add(
   faUserShield
 )
 
-Vue.component("vue-fontawesome", FontAwesomeIcon);
+Vue.component("vue-fontawesome", FontAwesomeIcon)
 ```
 
 Each component provide customization options; see their documentation (currently
