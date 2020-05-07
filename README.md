@@ -35,7 +35,7 @@ export default class GameClient extends MorelClient {
 }
 ```
 
-### Main
+#### Main
 
 ```js
 import Vue from "vue"
