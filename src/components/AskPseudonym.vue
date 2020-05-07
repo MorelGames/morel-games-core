@@ -22,25 +22,39 @@
           </button>
         </p> </b-field
     ></b-field>
+
     <p class="joining-existing-game" v-if="is_existing_game && !kick_reason">
-      {{ $t("You're joining an existing game.")}}<br />
-      <i18n path="If you wish, you can also {create_new_game}.">
-        <a href="#" @click.prevent="erase_slug" slot="create_new_game">{{ $t("create a new game") }}</a>
-      </i18n>
+      <!--
+        A slot displayed when the player joins an existing game.
+      -->
+      <slot name="existing">
+        <!-- A message to inform the player it is joining an existing game, plus a link to create a new game instead. -->
+        {{ $t("You're joining an existing game.")}}<br />
+        <i18n path="If you wish, you can also {create_new_game}.">
+          <a href="#" @click.prevent="erase_slug" slot="create_new_game">{{ $t("create a new game") }}</a>
+        </i18n>
+      </slot>
     </p>
-    <b-message v-if="kick_reason" type="is-danger" class="kick-reason">
-      <p>
-        <template v-if="kick_reason === 'locked'">
-          {{ $t("You cannot join this game because it's locked.") }}
-        </template>
-        <template v-else>
-          {{ $t("You got kicked out of the game.") }}
-        </template>
-      </p>
-      <p>
-        <b-button type="is-danger" @click="create_new_game">{{ $t("Create a new game") }}</b-button>
-      </p>
-    </b-message>
+
+    <!--
+      The error message, if any. Binds `reason`, the reason why the error occurs. This reason can be `kicked` (the player was kicked out from the game) or `locked` (the player tried to join a locked game).
+    -->
+    <slot name="error" v-bind:reason="kick_reason">
+      <!-- A light-red frame with a localized explaination and a button to create a new game. -->
+      <b-message v-if="kick_reason" type="is-danger" class="kick-reason">
+        <p>
+          <template v-if="kick_reason === 'locked'">
+            {{ $t("You cannot join this game because it's locked.") }}
+          </template>
+          <template v-else>
+            {{ $t("You got kicked out of the game.") }}
+          </template>
+        </p>
+        <p>
+          <b-button type="is-danger" @click="create_new_game">{{ $t("Create a new game") }}</b-button>
+        </p>
+      </b-message>
+    </slot>
   </div>
 </template>
 
@@ -48,8 +62,13 @@
 import { mapState } from "vuex";
 
 /**
+ * `<morel-ask-pseudonym />`
+ *
  * A component that displays the pseudonym field, typically used as the first
  * screen of the game.
+ *
+ * It also displays error messages if the player is kicked, of if it tries to
+ * join a locked game.
  */
 export default {
   props: {
@@ -82,7 +101,7 @@ export default {
      */
     type: {
       type: String,
-      default: 'is-primary'
+      default: "is-primary"
     },
 
     /**

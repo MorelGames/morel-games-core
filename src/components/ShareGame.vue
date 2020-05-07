@@ -1,10 +1,19 @@
 <template>
   <section class="share-game">
     <header>
-      <h3>
-        <slot name="title">{{ $t("Share game") }}</slot>
-      </h3>
+      <!--
+        Contains the title of the share section.
+      -->
+      <slot name="title">
+        <!-- `<h3>Share game</h3>` (localized) -->
+        <h3>{{ $t("Share game") }}</h3>
+      </slot>
+
+      <!--
+        Contains the lock button.
+      -->
       <slot name="lock">
+        <!-- A default lock button with right events and tooltips attached. -->
         <b-tooltip :label="lock_tooltip" position="is-bottom" :type="type" :class="{'is-static': !master}">
           <b-button
             :icon-left="locked ? 'lock' : 'lock-open'"
@@ -39,7 +48,11 @@
       </p>
     </b-field>
     <p class="share-invite">
+      <!--
+        The invite text, displayed at the bottom of the share component.
+      -->
       <slot name="invite">
+        <!-- A standard invite, localized. -->
         {{ $t("Invite other players to open this link in their browser to join this game.") }}
       </slot>
     </p>
@@ -49,6 +62,12 @@
 <script>
 import { mapState } from "vuex";
 
+/**
+ * `<morel-share-game />`
+ *
+ * A share box with an invite and a “copy link” button. Also includes the lock
+ * game button.
+ */
 export default {
   props: {
     /**

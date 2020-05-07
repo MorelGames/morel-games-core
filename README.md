@@ -5,6 +5,8 @@ network, game URL, players list, master player, master actions (kick players,
 lock game), and finally, internationalization. Pre-made Vue components are also
 provided.
 
+**[Documentation for JS API and Vue components](https://morelgames.github.io/morel-games-core)**
+
 ## Integration
 
 On an existing Vue + Vuex project, you must:
@@ -410,5 +412,6 @@ library.add(
 Vue.component("vue-fontawesome", FontAwesomeIcon)
 ```
 
-Each component provide customization options; see their documentation (currently
-the JSDoc comments in the files, sorry) for details.
+Each component provide customization options; see
+[their documentation](https://morelgames.github.io/morel-games-core/vue/) for
+details.

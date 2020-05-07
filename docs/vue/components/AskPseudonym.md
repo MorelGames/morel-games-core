@@ -1,6 +1,6 @@
 # AskPseudonym
 
-A component that displays the pseudonym field, typically used as the first screen of the game.
+`<morel-ask-pseudonym />` A component that displays the pseudonym field, typically used as the first screen of the game. It also displays error messages if the player is kicked, of if it tries to join a locked game.
 
 ## Props
 
@@ -16,5 +16,16 @@ A component that displays the pseudonym field, typically used as the first scree
 |maxlength|The max length of the pseudonym.|`Number`|`false`|32|
 
 <!-- @vuese:AskPseudonym:props:end -->
+
+
+## Slots
+
+<!-- @vuese:AskPseudonym:slots:start -->
+|Name|Description|Default Slot Content|
+|---|---|---|
+|existing|A slot displayed when the player joins an existing game.|A message to inform the player it is joining an existing game, plus a link to create a new game instead.|
+|error|The error message, if any. Binds `reason`, the reason why the error occurs. This reason can be `kicked` (the player was kicked out from the game) or `locked` (the player tried to join a locked game).|A light-red frame with a localized explaination and a button to create a new game.|
+
+<!-- @vuese:AskPseudonym:slots:end -->
 
 

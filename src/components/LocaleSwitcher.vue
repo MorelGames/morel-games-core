@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown v-model="current_locale" position="is-top-right" aria-role="list">
+  <b-dropdown v-model="current_locale" :position="position" aria-role="list">
     <b-button
       slot="trigger"
       type="is-text"
@@ -19,7 +19,24 @@
 <script>
 import { mapState } from 'vuex'
 
+/**
+ * `<morel-locale-switcher />`
+ *
+ * A ready-to-be-used locale switcher. Displays a dropup (or dropdown) with all
+ * registered locales in the `MorelI18n`' second argument, and switch the locale
+ * on click, with a small and discrete loader on the component for slow
+ * connections, as translations files are lazy-loaded.
+ */
 export default {
+  props: {
+    /**
+     * The dropdown menu position. Can be [any valid `<b-dropdown>` position](https://buefy.org/documentation/dropdown#api-view).
+     */
+    position: {
+      type: String,
+      default: "is-top-right"
+    }
+  },
   computed: {
     ...mapState('morel', ['locales', 'locale_loading']),
     current_locale: {

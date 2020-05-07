@@ -4,9 +4,19 @@ const Snackbar = require('buefy').SnackbarProgrammatic
 /**
  * A Vuex module with game data inside.
  *
+ * This function generates the module from the client and the i18n wrapper.
+ * Its return value must be added to your Vuex store as a module named `morel`
+ * (important!).
+ *
+ * Due to JSDoc limitations, use the source code link below to look up all
+ * mutations, actions and getters available.
+ *
  * @param {MorelClient} client The Morel Client instance for the current game.
+ * @param {MorelI18n} i18n The Morel I18n instance for the current game.
+ *
+ * @return {object} A Vuex module required by the Morel game core.
  */
-exports.MorelStore = function(client, i18n) {
+const MorelStore = function(client, i18n) {
   const $t = i18n ? i18n.i18n.t.bind(i18n.i18n) : message => message
 
   return {
@@ -520,3 +530,5 @@ exports.MorelStore = function(client, i18n) {
     }
   }
 }
+
+exports.MorelStore = MorelStore

@@ -5,8 +5,11 @@
  * message's action, replacing dashes by underscores. As example, if a
  * `set-uuid` message is received, the `message_in_set_uuid` method will be
  * called. It will get the whole message as argument.
+ *
+ * Most of these methods should not be used directly. Instead, use actions
+ * defined in the MorelStore module.
  */
-exports.MorelClient = class {
+const MorelClient = class {
 
   /**
    * Constructor.
@@ -344,3 +347,5 @@ exports.MorelClient = class {
     })
   }
 }
+
+exports.MorelClient = MorelClient

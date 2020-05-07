@@ -18,6 +18,13 @@
 </template>
 
 <script>
+  /**
+   * `<morel-player-action />`
+   *
+   * This displays a small icon with a tooltip and an action on click. It is
+   * intented to be used inside the `actions` slot of the `Players`
+   * component.
+   */
   export default {
     props: {
       /**

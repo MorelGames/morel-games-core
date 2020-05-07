@@ -1,9 +1,8 @@
 {
   "plugins": [
-    "plugins/markdown",
-    "node_modules/jsdoc-vuejs"
+    "plugins/markdown"
   ],
   "source": {
-    "includePattern": "\\.(vue|js)$"
+    "includePattern": "\\.js$"
   }
 }

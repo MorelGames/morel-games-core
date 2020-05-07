@@ -3,10 +3,10 @@
     <div class="panel-block" v-for="(player, i) in sorted_players" :key="i">
       <span class="panel-icon">
         <!--
-          @slot For each player, this slot contains the left icon.
-          @binding {object} player The player associated with this icon.
+          For each player, this slot contains the left icon. Binds `player`, the player associated with this icon.
         -->
         <slot name="icon" v-bind:player="player">
+          <!-- An icon representing the player's readyness, if online; an offline icon, else. -->
           <b-icon
             pack="fas"
             icon="user-alt-slash"
@@ -33,11 +33,10 @@
 
       <div class="panel-block-main">
         <!--
-          @slot For each player, this slot contains the main label (by default,
-                the player name and a “(you)” mark).
-          @binding {object} player The player.
+          For each player, this slot contains the main label. Binds `player`, the player currently displayed.
         -->
         <slot name="label" v-bind:player="player">
+          <!-- Te player name and a “(you)” mark for the current player, localized. -->
           <span
             v-bind:class="{
               'is-offline': !player.online
@@ -49,12 +48,7 @@
       </div>
 
       <!--
-        @slot For each player, this slot contains additional control button, or
-              any other content displayed to the right of the player's line.
-              You can use `morel-player-action` to add buttons easily.
-              You can disable default controls (kick, master) with the
-              `default-icons` prop (set it to `false`).
-        @binding {object} player The player associated with this control button.
+        For each player, this slot contains additional control button, or any other content displayed to the right of the player's line. You can use `morel-player-action` to add buttons easily. You can disable default controls (kick, master) with the `default-icons` prop (set it to `false`). Binds `player`, the player associated with this control button.
       -->
       <slot name="actions" v-bind:player="player" />
 
@@ -80,6 +74,8 @@ import { mapState, mapGetters } from "vuex"
 import PlayerAction from './PlayerAction.vue'
 
 /**
+ * `<morel-players />`
+ *
  * This components displays the players list, plus actions on them if the player
  * is master. You can add your own action in a slot.
  */
@@ -100,6 +96,7 @@ export default {
      */
     "kick-confirm-title": {
       type: String,
+      // A standard and localized text.
       default: ""
     },
 
@@ -110,6 +107,7 @@ export default {
      */
     "kick-confirm-message": {
       type: String,
+      // A standard and localized text.
       default: ""
     },
 
@@ -121,6 +119,7 @@ export default {
      */
     "kick-confirm-help": {
       type: String,
+      // A standard and localized text.
       default: ""
     },
 
@@ -131,6 +130,7 @@ export default {
      */
     "kick-confirm-button-yes": {
       type: String,
+      // A standard and localized text.
       default: ""
     },
 
@@ -141,6 +141,7 @@ export default {
      */
     "kick-confirm-button-no": {
       type: String,
+      // A standard and localized text.
       default: ""
     },
 
@@ -151,6 +152,7 @@ export default {
      */
     "master-confirm-title": {
       type: String,
+      // A standard and localized text.
       default: ""
     },
 
@@ -161,6 +163,7 @@ export default {
      */
     "master-confirm-message": {
       type: String,
+      // A standard and localized text.
       default: ""
     },
 
@@ -172,6 +175,7 @@ export default {
      */
     "master-confirm-help": {
       type: String,
+      // A standard and localized text.
       default: ""
     },
 
@@ -182,6 +186,7 @@ export default {
      */
     "master-confirm-button-yes": {
       type: String,
+      // A standard and localized text.
       default: ""
     },
 
@@ -192,6 +197,7 @@ export default {
      */
     "master-confirm-button-no": {
       type: String,
+      // A standard and localized text.
       default: ""
     },
   },
