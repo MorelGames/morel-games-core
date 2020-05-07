@@ -1,50 +1,78 @@
-<template>
-  <div class="ask-pseudonym">
-    <b-field :custom-class="size" :position="position">
-      <template slot="label">{{ $t(label) }}</template>
-      <b-field :type="unfilled_error ? 'is-danger' : type">
-        <b-input
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/AskPseudonym.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/AskPseudonym.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+  &lt;div class="ask-pseudonym">
+    &lt;b-field :custom-class="size" :position="position">
+      &lt;template slot="label">{{ $t(label) }}&lt;/template>
+      &lt;b-field :type="unfilled_error ? 'is-danger' : type">
+        &lt;b-input
           :placeholder="$t(placeholder)"
           :size="size + ' is-expanded'"
           :maxlength="maxlength"
           v-model.trim="pseudonym"
           @keyup.native.enter="start_game"
           autofocus
-        ></b-input>
-        <p class="control">
-          <button
+        >&lt;/b-input>
+        &lt;p class="control">
+          &lt;button
             class="button"
             :class="[size, type]"
             :aria-label="$t(labelButton)"
             @click="start_game"
           >
-            <b-icon icon="chevron-right"></b-icon>
-          </button>
-        </p> </b-field
-    ></b-field>
-    <p class="joining-existing-game" v-if="is_existing_game && !kick_reason">
-      {{ $t("You're joining an existing game.")}}<br />
-      <i18n path="If you wish, you can also {create_new_game}.">
-        <a href="#" @click.prevent="erase_slug" slot="create_new_game">{{ $t("create a new game") }}</a>
-      </i18n>
-    </p>
-    <b-message v-if="kick_reason" type="is-danger" class="kick-reason">
-      <p>
-        <template v-if="kick_reason === 'locked'">
+            &lt;b-icon icon="chevron-right">&lt;/b-icon>
+          &lt;/button>
+        &lt;/p> &lt;/b-field
+    >&lt;/b-field>
+    &lt;p class="joining-existing-game" v-if="is_existing_game &amp;&amp; !kick_reason">
+      {{ $t("You're joining an existing game.")}}&lt;br />
+      &lt;i18n path="If you wish, you can also {create_new_game}.">
+        &lt;a href="#" @click.prevent="erase_slug" slot="create_new_game">{{ $t("create a new game") }}&lt;/a>
+      &lt;/i18n>
+    &lt;/p>
+    &lt;b-message v-if="kick_reason" type="is-danger" class="kick-reason">
+      &lt;p>
+        &lt;template v-if="kick_reason === 'locked'">
           {{ $t("You cannot join this game because it's locked.") }}
-        </template>
-        <template v-else>
+        &lt;/template>
+        &lt;template v-else>
           {{ $t("You got kicked out of the game.") }}
-        </template>
-      </p>
-      <p>
-        <b-button type="is-danger" @click="create_new_game">{{ $t("Create a new game") }}</b-button>
-      </p>
-    </b-message>
-  </div>
-</template>
+        &lt;/template>
+      &lt;/p>
+      &lt;p>
+        &lt;b-button type="is-danger" @click="create_new_game">{{ $t("Create a new game") }}&lt;/b-button>
+      &lt;/p>
+    &lt;/b-message>
+  &lt;/div>
+&lt;/template>
 
-<script>
+&lt;script>
 import { mapState } from "vuex";
 
 /**
@@ -87,7 +115,7 @@ export default {
 
     /**
      * The component size.
-     * @values is-small, is-medium, is-large, <empty>.
+     * @values is-small, is-medium, is-large, &lt;empty>.
      */
     size: {
       type: String,
@@ -155,16 +183,16 @@ export default {
     }
   }
 };
-</script>
+&lt;/script>
 
-<style lang="sass">
+&lt;style lang="sass">
 @import "~bulma/sass/utilities/mixins"
 
 .ask-pseudonym
   .field
-    &.has-addons-centered
+    &amp;.has-addons-centered
       text-align: center
-    &.has-addons-right
+    &amp;.has-addons-right
       text-align: right
   +mobile
     padding: 0 1rem
@@ -188,6 +216,29 @@ p.joining-existing-game
     .media-content p
       text-align: center
 
-      & + p
+      &amp; + p
         margin-top: 1rem
-</style>
+&lt;/style>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AskPseudonym.html">AskPseudonym</a></li><li><a href="module-Players.html">Players</a></li></ul><h3>Classes</h3><ul><li><a href="MorelClient.html">MorelClient</a></li><li><a href="MorelI18n.html">MorelI18n</a></li></ul><h3>Global</h3><ul><li><a href="global.html#MorelStore">MorelStore</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu May 07 2020 13:42:35 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

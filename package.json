@@ -4,7 +4,11 @@
   "description": "Common front-end components and logics for all Morel browser minigames.",
   "main": "src/index.js",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "jsdoc": "^3.6.4",
+    "jsdoc-vuejs": "^3.0.8",
+    "vue-template-compiler": "^2.6.11"
+  },
   "peerDependencies": {
     "buefy": "^0.8.13",
     "vue": "^2.6.11",
@@ -19,7 +23,8 @@
     "mode": "all"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "jsdoc -d docs/js --readme README.md --package package.json -c jsdoc.config.json src/**/*.js src/*.js src/**/*.vue && vuese gen && mv website docs/vue"
   },
   "author": "Amaury Carrade <amaury@carrade.eu> (https://amaury.carrade.eu)",
   "license": "CECILL-B",

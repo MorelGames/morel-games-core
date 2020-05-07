@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/ShareGame.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/ShareGame.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+  &lt;section class="share-game">
+    &lt;header>
+      &lt;h3>
+        &lt;slot name="title">{{ $t("Share game") }}&lt;/slot>
+      &lt;/h3>
+      &lt;slot name="lock">
+        &lt;b-tooltip :label="lock_tooltip" position="is-bottom" :type="type" :class="{'is-static': !master}">
+          &lt;b-button
+            :icon-left="locked ? 'lock' : 'lock-open'"
+            :loading="lock_loading"
+            :disabled="!master"
+            @click="toggle_lock"
+            type="is-text" />
+        &lt;/b-tooltip>
+      &lt;/slot>
+    &lt;/header>
+    &lt;b-field grouped size="is-small">
+      &lt;b-input
+        :value="share_url"
+        size="is-small"
+        readonly
+        expanded
+        id="share-url-field"
+        @focus="$event.target.select()"
+      >
+      &lt;/b-input>
+      &lt;p class="control copy-button">
+        &lt;b-tooltip
+          :label="copied ? $t('Copied!') : $t('Copy link to clipboard')"
+          position="is-bottom"
+          :type="type"
+          multilined
+        >
+          &lt;b-button class="button" :type="type" icon-left="clipboard" @click.stop.prevent="copy_url" :expanded="true">
+            {{ $t("Copy game link") }}
+          &lt;/b-button>
+        &lt;/b-tooltip>
+      &lt;/p>
+    &lt;/b-field>
+    &lt;p class="share-invite">
+      &lt;slot name="invite">
+        {{ $t("Invite other players to open this link in their browser to join this game.") }}
+      &lt;/slot>
+    &lt;/p>
+  &lt;/section>
+&lt;/template>
+
+&lt;script>
+import { mapState } from "vuex";
+
+export default {
+  props: {
+    /**
+     * The button &amp; tooltip types. Any Bulma color can be used here.
+     */
+    type: {
+      type: String,
+      default: "is-light"
+    }
+  },
+  data() {
+    return {
+      copied: false
+    };
+  },
+  computed: {
+    ...mapState('morel', {
+      share_url: state => `${window.location.origin}/${state.slug}`,
+      locked: state => state.locked,
+      lock_loading: state => state.lock_loading,
+      master: state => state.master
+    }),
+    lock_tooltip() {
+      const $t = this.$t.bind(this)
+
+      if (this.master) {
+        return this.locked ? $t("Unlock the game") : $t("Lock the game")
+      } else {
+        return this.locked ? $t("Game locked") : $t("Game unlocked")
+      }
+    }
+  },
+  methods: {
+    copy_url() {
+      let share_url_field = document.getElementById("share-url-field");
+      share_url_field.select();
+
+      try {
+        if (document.execCommand("copy")) {
+          this.copied = true;
+          setTimeout(() => (this.copied = false), 1600);
+        }
+      } catch (e) {
+        console.error("Unable to copy game URL", e);
+      }
+
+      share_url_field.blur();
+    },
+
+    toggle_lock() {
+      if (this.master) {
+        this.$store.dispatch("morel/lock_game", !this.locked);
+      }
+    }
+  }
+};
+&lt;/script>
+
+&lt;style lang="sass">
+@import "~bulma/sass/utilities/_all"
+
+.share-game
+  +mobile
+    margin: 0 1rem 1.5rem
+
+  header
+    display: flex
+    align-items: center
+
+    h3
+      flex: 4
+
+      position: relative
+      left: 1px
+
+      font-weight: bold
+      margin: 1rem 0 .4rem
+
+    span.b-tooltip
+      button.button
+        position: relative
+        top: 5px
+
+        font-size: .9em
+        color: $grey
+
+        &amp;, &amp;:hover, &amp;:active, &amp;:focus
+          background: none
+          border: none
+          box-shadow: none
+
+        &amp;:hover, &amp;:active, &amp;:focus
+          color: $grey-dark
+
+        span.icon
+          transform: scale(-1, 1)
+
+      &amp;.is-static button.button
+        cursor: default
+
+  .field.is-grouped
+    position: relative
+
+    margin-bottom: .4em
+    align-items: center
+
+    input
+      border-color: $grey-light
+      border-radius: 4px
+
+      font-size: 0.9rem
+
+      +mobile
+        font-size: 0.95rem
+
+    // This element must remain “displayed”, else copy will not work.
+    .control:not(.copy-button)
+      position: absolute
+      margin-left: -999999px
+
+    .control.copy-button
+      &amp;, &amp; .b-tooltip
+        width: 100%
+
+  .share-invite
+    position: relative
+    left: 1px
+
+    font-size: .9em
+    color: $grey-dark !important
+&lt;/style>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AskPseudonym.html">AskPseudonym</a></li><li><a href="module-Players.html">Players</a></li></ul><h3>Classes</h3><ul><li><a href="MorelClient.html">MorelClient</a></li><li><a href="MorelI18n.html">MorelI18n</a></li></ul><h3>Global</h3><ul><li><a href="global.html#MorelStore">MorelStore</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu May 07 2020 13:42:35 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

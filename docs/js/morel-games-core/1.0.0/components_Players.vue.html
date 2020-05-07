@@ -1,54 +1,82 @@
-<template>
-  <nav class="panel morel-players-list">
-    <div class="panel-block" v-for="(player, i) in sorted_players" :key="i">
-      <span class="panel-icon">
-        <!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Players.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Players.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+  &lt;nav class="panel morel-players-list">
+    &lt;div class="panel-block" v-for="(player, i) in sorted_players" :key="i">
+      &lt;span class="panel-icon">
+        &lt;!--
           @slot For each player, this slot contains the left icon.
           @binding {object} player The player associated with this icon.
         -->
-        <slot name="icon" v-bind:player="player">
-          <b-icon
+        &lt;slot name="icon" v-bind:player="player">
+          &lt;b-icon
             pack="fas"
             icon="user-alt-slash"
             size="is-small"
             v-if="!player.online"
             key="ready"
-          ></b-icon>
-          <b-icon
+          >&lt;/b-icon>
+          &lt;b-icon
             pack="fas"
             icon="check"
             size="is-small"
             v-else-if="player.ready"
             key="ready"
-          ></b-icon>
-          <b-icon
+          >&lt;/b-icon>
+          &lt;b-icon
             pack="fas"
             icon="hourglass-half"
             size="is-small"
             v-else
             key="not-ready"
-          ></b-icon>
-        </slot>
-      </span>
+          >&lt;/b-icon>
+        &lt;/slot>
+      &lt;/span>
 
-      <div class="panel-block-main">
-        <!--
+      &lt;div class="panel-block-main">
+        &lt;!--
           @slot For each player, this slot contains the main label (by default,
                 the player name and a “(you)” mark).
           @binding {object} player The player.
         -->
-        <slot name="label" v-bind:player="player">
-          <span
+        &lt;slot name="label" v-bind:player="player">
+          &lt;span
             v-bind:class="{
               'is-offline': !player.online
             }"
-            >{{ player.pseudonym }}</span
+            >{{ player.pseudonym }}&lt;/span
           >
-          <span class="is-size-7 ourself-mark" v-if="player.ourself">{{ $t('(you)') }}</span>
-        </slot>
-      </div>
+          &lt;span class="is-size-7 ourself-mark" v-if="player.ourself">{{ $t('(you)') }}&lt;/span>
+        &lt;/slot>
+      &lt;/div>
 
-      <!--
+      &lt;!--
         @slot For each player, this slot contains additional control button, or
               any other content displayed to the right of the player's line.
               You can use `morel-player-action` to add buttons easily.
@@ -56,26 +84,26 @@
               `default-icons` prop (set it to `false`).
         @binding {object} player The player associated with this control button.
       -->
-      <slot name="actions" v-bind:player="player" />
+      &lt;slot name="actions" v-bind:player="player" />
 
-      <template v-if="defaultIcons">
-        <morel-player-action
+      &lt;template v-if="defaultIcons">
+        &lt;morel-player-action
           :label="$t('Kick this player')"
           icon="user-alt-slash"
-          v-if="we_are_master && !player.master && player.online"
+          v-if="we_are_master &amp;&amp; !player.master &amp;&amp; player.online"
           @click="kick_player(player.uuid)" />
-        <morel-player-action
+        &lt;morel-player-action
           :label="player.master ? $t('Game Master') : $t('Promote as Game Master')"
           icon="user-shield"
           :permanent="player.master"
-          v-if="player.master || (we_are_master && player.online)"
+          v-if="player.master || (we_are_master &amp;&amp; player.online)"
           @click="switch_master(player.uuid)" />
-      </template>
-    </div>
-  </nav>
-</template>
+      &lt;/template>
+    &lt;/div>
+  &lt;/nav>
+&lt;/template>
 
-<script>
+&lt;script>
 import { mapState, mapGetters } from "vuex"
 import PlayerAction from './PlayerAction.vue'
 
@@ -221,7 +249,7 @@ export default {
 
       let message = this.replace_name(
         this.masterConfirmMessage,
-        $t("<strong>{name}</strong> will be able to manage the game and its configuration. You'll lose those powers."),
+        $t("&lt;strong>{name}&lt;/strong> will be able to manage the game and its configuration. You'll lose those powers."),
         player.pseudonym
       )
 
@@ -237,7 +265,7 @@ export default {
           $t("Promote {name}?"),
           player.pseudonym
         ),
-        message: `${message}<br /><br /><span class="has-text-grey">${help}</span>`,
+        message: `${message}&lt;br />&lt;br />&lt;span class="has-text-grey">${help}&lt;/span>`,
         confirmText: this.replace_name(
           this.masterConfirmButtonYes,
           $t("Promote"),
@@ -271,8 +299,8 @@ export default {
       let message = this.replace_name(
         this.kickConfirmMessage,
         this.locked
-          ? $t("<strong>{name}</strong> will be unable to join as long as the game is locked.")
-          : $t("<strong>{name}</strong> will left the game, but will be able to re-join as the game is not locked."),
+          ? $t("&lt;strong>{name}&lt;/strong> will be unable to join as long as the game is locked.")
+          : $t("&lt;strong>{name}&lt;/strong> will left the game, but will be able to re-join as the game is not locked."),
         player.pseudonym
       )
 
@@ -290,7 +318,7 @@ export default {
           $t("Kick {name}?"),
           player.pseudonym
         ),
-        message: `${message}<br /><br /><span class="has-text-grey">${help}</span>`,
+        message: `${message}&lt;br />&lt;br />&lt;span class="has-text-grey">${help}&lt;/span>`,
         confirmText: this.replace_name(
           this.kickConfirmButtonYes,
           $t("Kick"),
@@ -317,9 +345,9 @@ export default {
     "morel-player-action": PlayerAction
   }
 }
-</script>
+&lt;/script>
 
-<style lang="sass">
+&lt;style lang="sass">
 @import "~bulma/sass/utilities/_all"
 
 .panel.morel-players-list
@@ -332,11 +360,11 @@ export default {
   .panel-block
     align-items: center
 
-    &:first-child
+    &amp;:first-child
       border-top-left-radius: 4px
       border-top-right-radius: 4px
 
-    &:last-child
+    &amp;:last-child
       border-bottom-left-radius: 4px
       border-bottom-right-radius: 4px
 
@@ -361,9 +389,32 @@ export default {
     .is-offline
       font-style: italic
 
-    &:hover .morel-player-action-icon
+    &amp;:hover .morel-player-action-icon
       display: block
 
 .dialog.modal .media-content p span
   font-weight: normal
-</style>
+&lt;/style>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AskPseudonym.html">AskPseudonym</a></li><li><a href="module-Players.html">Players</a></li></ul><h3>Classes</h3><ul><li><a href="MorelClient.html">MorelClient</a></li><li><a href="MorelI18n.html">MorelI18n</a></li></ul><h3>Global</h3><ul><li><a href="global.html#MorelStore">MorelStore</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu May 07 2020 13:42:35 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

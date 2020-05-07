@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3>morel-games-core 1.0.0</h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>Morel Games — Core</h1>
+<p>This package centralizes all common components for Morel games: authentication,
+network, game URL, players list, master player, master actions (kick players,
+lock game), and finally, internationalization. Pre-made Vue components are also
+provided.</p>
+<h2>Integration</h2>
+<p>On an existing Vue + Vuex project, you must:</p>
+<ul>
+<li>add a Vuex module;</li>
+<li>register Vue components;</li>
+<li>register i18n;</li>
+<li>create a game client.</li>
+</ul>
+<p>The core depends on:</p>
+<ul>
+<li>Vue &amp; Vuex, of course;</li>
+<li>Buefy (Bulma as Vue components);</li>
+<li>and Vue-i18n for internationalization.</li>
+</ul>
+<h3>TL;DR</h3>
+<p>If you know what you are doing.</p>
+<h4>Game client</h4>
+<pre class="prettyprint source lang-js"><code>import { MorelClient } from &quot;morel-games-core&quot;
+
+export default class GameClient extends MorelClient {
+  message_in_my_action(message) {
+    this.send_message(&quot;the-answer&quot;, { answer: 42, music: &quot;The Beatles&quot; })
+  }
+}
+</code></pre>
+<h3>Main</h3>
+<pre class="prettyprint source lang-js"><code>import Vue from &quot;vue&quot;
+import Vuex from &quot;vuex&quot;
+import Buefy from &quot;buefy&quot;
+
+import { MorelStore, MorelVue, MorelI18n } from &quot;morel-games-core&quot;
+
+import GameClient from &quot;./game&quot; // Your game client here, extends MorelClient.
+import App from &quot;./App.vue&quot;     // Your main App component.
+
+// Icons
+// Could be in icons.js
+
+import { library } from &quot;@fortawesome/fontawesome-svg-core&quot;
+import { FontAwesomeIcon } from &quot;@fortawesome/vue-fontawesome&quot;
+
+import {
+  faCaretDown,
+  faCaretUp,
+  faCheck,
+  faChevronRight,
+  faClipboard
+  faExclamationCircle,
+  faHourglassHalf,
+  faLock,
+  faLockOpen,
+  faTimes,
+  faUserAltSlash,
+  faUserShield
+} from &quot;@fortawesome/free-solid-svg-icons&quot;
+
+library.add(
+  faCaretDown,
+  faCaretUp,
+  faCheck,
+  faChevronRight,
+  faClipboard
+  faExclamationCircle,
+  faHourglassHalf,
+  faLock,
+  faLockOpen,
+  faTimes,
+  faUserAltSlash,
+  faUserShield
+)
+
+// Vue components registration
+
+Vue.use(Vuex)
+Vue.use(MorelVue)
+Vue.use(Buefy, {
+  defaultIconComponent: &quot;vue-fontawesome&quot;,
+  defaultIconPack: &quot;fas&quot;
+})
+
+Vue.component(&quot;vue-fontawesome&quot;, FontAwesomeIcon)
+
+// Client & I18n instanciation
+
+const client = new GameClient(
+  process.env.VUE_APP_WS_URL.replace(&quot;{hostname}&quot;, document.location.hostname),
+  &quot;your-protocol&quot;
+)
+
+const i18n = new MorelI18n(
+  locale =>
+    import(
+      /* webpackChunkName: &quot;locales-[request]&quot; */ &quot;./../locales/&quot; +
+        locale +
+        &quot;.json&quot;
+    ),
+  {
+    en: &quot;English&quot;,
+    fr: &quot;Français&quot;
+  }
+)
+
+// Store
+// Could be in store.js
+
+const store = new Vuex.Store({
+  modules: {
+    morel: MorelStore(client, i18n)
+  },
+  state: {
+    // …
+  }
+})
+
+// Client & I18n finalization
+
+client.set_store(store)
+i18n.set_store(store)
+
+i18n.load_locale_from_browser()
+
+// Slug initialization
+
+const url_slug = window.location.pathname.slice(1).split(&quot;/&quot;)[0]
+if (url_slug) {
+  store.dispatch(&quot;morel/set_slug&quot;, url_slug)
+}
+
+// And go
+
+new Vue({
+  render: h => h(App),
+  store,
+  i18n: i18n.i18n
+}).$mount(&quot;#app&quot;)
+</code></pre>
+<h3>Game client</h3>
+<p>The game client is a class that connects to the game server and handles all
+incoming and sent messages. The core contains a base class for that; it
+handle all base messages and authentication injection, and provides you with
+communication methods and auto-listeners.</p>
+<p>The protocol is defined in <a href="./morel-base-protocol.md"><code>morel-base-protocol.md</code></a>.</p>
+<p>To create a client, create a class that extends the <code>MorelClient</code> class.</p>
+<pre class="prettyprint source lang-js"><code>import { MorelClient } from &quot;morel-games-core&quot;
+
+export default class GameClient extends MorelClient {
+
+}
+</code></pre>
+<p>You already have a game client that can connect to a Morel-compatible game
+server and handle everything mentioned in the introduction (like players
+join &amp; leave, kicks, masters, masters switches, …).</p>
+<p>The class also handles reconnection automatically for you.</p>
+<h4>Listening for messages</h4>
+<p>To listen for your own specific incoming messages, you only need to create
+methods with a specific name. As explained on the protocol, there is an action
+for each message; to listen for an action, create a methods that start with
+<code>message_in_</code>, then the action name, replacing dashes with underscores.</p>
+<p>As example, to listen for the action <code>my-action</code>:</p>
+<pre class="prettyprint source lang-js"><code>export default class GameClient extends MorelClient {
+  message_in_my_action(message) {
+    // ...
+  }
+}
+</code></pre>
+<p><code>message</code> will be the full JSON message received through the websocket. You can
+also use object destructuring to simplify the code:</p>
+<pre class="prettyprint source lang-js"><code>message_in_my_action({ thing, thong }) {
+  // ...
+}
+</code></pre>
+<h4>Sending messages</h4>
+<p>From any method, use the <code>send_message</code> method. The first argument is the
+action, and the second (optional), the payload you want to send—that can be any
+<code>object</code>. It returns a <code>Promise</code>, resolved when the message was successfully
+sent.</p>
+<p>As example, a simple echo client could be built like this:</p>
+<pre class="prettyprint source lang-js"><code>message_in_ping({ reply }) {
+  this.send_message(&quot;pong&quot;, { pong: reply })
+}
+</code></pre>
+<p>If a <code>ping</code> message is received, the <code>reply</code> parameter will be replied back
+in a <code>pong</code> outgoing message.</p>
+<h4>Using the store</h4>
+<p>The Vuex store is available in <code>this.store</code>, so you can mutate the store or
+dispatch actions easily when incoming messages are received.</p>
+<h4>Creating a game client object</h4>
+<p>The game client constructor takes two arguments:</p>
+<ul>
+<li>the websocket URL to connect to;</li>
+<li>the name of the protocol to expose to the websocket (defaults to
+<code>morel-protocol</code>, but you should change this).</li>
+</ul>
+<p>You should instantiate the client <em>before</em> the Vuex store, as the Morel store
+depends on the client, but set the store after, like this:</p>
+<pre class="prettyprint source lang-js"><code>const client = new GameClient(&quot;wss://example.com&quot;, &quot;example-protocol&quot;)
+
+const store = Vuex.Store({ … })
+
+client.set_store(store)
+</code></pre>
+<h3>I18n</h3>
+<p>The core integrates <a href="https://kazupon.github.io/vue-i18n/">Vue i18n</a>. A
+full-featured class adds useful shortcut to change languages, and an UI
+component is also provided (see the Vue Components section). The I18n class
+require two arguments:</p>
+<ul>
+<li>a function that loads the i18n catalog for a given locale, and return a
+<code>Promise</code> that return it (that catalog is a JSON or JS file; ultimately any
+javascript object);</li>
+<li>an object containing the supported locales, the property being the locale code
+and the value the locale name <em>in its language</em> (e.g. for <code>fr</code>,
+<code>Français</code> instead of <code>French</code>). The value will be used in the default
+locale switcher component as label.</li>
+</ul>
+<p>We highly recommend to use Webpack's chunk feature (like below) to reduce the
+size of the compiled javascript file by lazy-loading translation files. The
+default implementation will display a small loader when the locale is loaded,
+so even with a slow connection, the user will understand something is happening.
+Also, the core's translation files are themselves lazy-loaded anyway.</p>
+<p>The integration is similar to the game client's one: you instantiate the
+<code>MorelI18n</code> class before the store (as the store needs it) and you set the store
+afterwards, like this.</p>
+<p>You should also call the <code>load_locale_from_browser</code> method after <code>set_store</code>. It
+will restore the last locale used (as stored in the local storage), or detect
+the browser's locale if the local storage is empty.</p>
+<pre class="prettyprint source lang-js"><code>import { MorelI18n } from &quot;morel-games-core&quot;
+
+const i18n = new MorelI18n(
+  locale =>
+    import(
+      /* webpackChunkName: &quot;locales-[request]&quot; */ &quot;./../locales/&quot; +
+        locale +
+        &quot;.json&quot;
+    ),
+  {
+    en: &quot;English&quot;,
+    fr: &quot;Français&quot;
+  }
+)
+
+const store = Vuex.Store({ … })
+
+i18n.set_store(store)
+i18n.load_locale_from_browser()
+</code></pre>
+<h4>Using the I18n component</h4>
+<p>The underlying Vue-i18n component is available through the <code>i18n</code> property (that
+is, <code>i18n.i18n</code> in the example above). It is automatically registered, so you
+don't need to do anything to get all <code>$t</code> and other <code>&lt;i18n&gt;</code> Vue components
+(see <a href="https://kazupon.github.io/vue-i18n/started.html">Vue-i18n documentation</a>
+for details).</p>
+<p>Calling <code>i18n.i18n.t()</code> is kinda long, so you may want to create a shortcut.
+Don't forget to bind it to the original class if you do so, like this:</p>
+<pre class="prettyprint source lang-js"><code>const t = i18n.i18n.t.bind(i18n.i18n)
+
+// or in Vue components
+const t = this.$t.bind(this)
+</code></pre>
+<h4>Switching locale</h4>
+<p>Higher-level (recommended): use th <code>&lt;morel-locale-switcher&gt;</code> component (see
+below).</p>
+<p>High-level: dispatch the <code>morel/set_locale</code> action, with the locale as argument.</p>
+<p>Low-level: call the <code>MorelI18n.load_locale</code> method. It returns a <code>Promise</code>,
+resolved when the locale is fully loaded.</p>
+<pre class="prettyprint source lang-js"><code>// i18n being the MorelI18n instance.
+i18n.load_locale(locale)
+</code></pre>
+<h3>Store</h3>
+<p>The Morel Core <em>requires</em> that its store module is loaded in your Vuex store
+under the <code>morel</code> name. Use the <code>MorelStore</code> method to construct the module; it
+needs both the game client and the <code>MorelI18n</code> instance as argument.</p>
+<pre class="prettyprint source lang-js"><code>import { MorelStore } from &quot;morel-games-core&quot;
+
+const store = new Vuex.Store({
+  modules: {
+    morel: MorelStore(client, i18n)
+  },
+  state: {
+    // …
+  }
+})
+</code></pre>
+<p>Both the client and the i18n module will store data in the store.</p>
+<p>The store provides multiple mutations, actions and getters under the <code>morel</code>
+namespace.</p>
+<h3>Vue components</h3>
+<p>A few components are provided for basic things, to speed things up. You'll get:</p>
+<ul>
+<li><code>&lt;morel-ask-pseudonym&gt;</code>: the “what's your name” interface, and also, error
+messages if the player is kicked from the game of if it is locked;</li>
+<li><code>&lt;morel-players&gt;</code>: the players list, with customizable buttons if needed be;
+<ul>
+<li><code>&lt;morel-player-action&gt;</code>: an action button on the players list;</li>
+</ul>
+</li>
+<li><code>&lt;morel-share-game&gt;</code>: the “share game” box, with the copy link button, an
+invite, and the lock/unlock button;</li>
+<li><code>&lt;morel-locale-switcher&gt;</code>: the switch locale dropdown.</li>
+</ul>
+<p>To use them, <code>use</code> <code>MorelVue</code>:</p>
+<pre class="prettyprint source lang-js"><code>import { MorelVue } from &quot;morel-games-core&quot;
+
+Vue.use(MorelVue)
+</code></pre>
+<p>You'll require a few FA icons:</p>
+<pre class="prettyprint source lang-js"><code>import { library } from &quot;@fortawesome/fontawesome-svg-core&quot;
+import { FontAwesomeIcon } from &quot;@fortawesome/vue-fontawesome&quot;
+
+import {
+  faCaretDown,
+  faCaretUp,
+  faCheck,
+  faChevronRight,
+  faClipboard
+  faExclamationCircle,
+  faHourglassHalf,
+  faLock,
+  faLockOpen,
+  faTimes,
+  faUserAltSlash,
+  faUserShield
+} from &quot;@fortawesome/free-solid-svg-icons&quot;
+
+library.add(
+  faCaretDown,
+  faCaretUp,
+  faCheck,
+  faChevronRight,
+  faClipboard
+  faExclamationCircle,
+  faHourglassHalf,
+  faLock,
+  faLockOpen,
+  faTimes,
+  faUserAltSlash,
+  faUserShield
+)
+
+Vue.component(&quot;vue-fontawesome&quot;, FontAwesomeIcon)
+</code></pre>
+<p>Each component provide customization options; see their documentation (currently
+the JSDoc comments in the files, sorry) for details.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AskPseudonym.html">AskPseudonym</a></li><li><a href="module-Players.html">Players</a></li></ul><h3>Classes</h3><ul><li><a href="MorelClient.html">MorelClient</a></li><li><a href="MorelI18n.html">MorelI18n</a></li></ul><h3>Global</h3><ul><li><a href="global.html#MorelStore">MorelStore</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu May 07 2020 13:42:35 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
