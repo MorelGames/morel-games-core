@@ -32,6 +32,7 @@
        */
       permanent: {
         type: Boolean,
+        // `false`
         default: false
       },
 
@@ -40,7 +41,8 @@
        */
       label: {
         type: String,
-        default: ''
+        default: '',
+        required: true
       },
 
       /**
@@ -48,6 +50,7 @@
        */
       type: {
         type: String,
+        // `is-light`
         default: 'is-light'
       },
 
@@ -55,7 +58,8 @@
        * The button's icon.
        */
       icon: {
-        type: String
+        type: String,
+        required: true
       },
 
       /**
@@ -63,6 +67,7 @@
        */
       pack: {
         type: String,
+        // `fas`
         default: 'fas'
       }
     }

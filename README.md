@@ -412,6 +412,16 @@ library.add(
 Vue.component("vue-fontawesome", FontAwesomeIcon)
 ```
 
-Each component provide customization options; see
+Each component provide customization options through slots & props; see
 [their documentation](https://morelgames.github.io/morel-games-core/vue/) for
 details.
+
+## Documentation
+
+To update documentation in the `docs` folder, run
+
+```
+npm run docs
+```
+
+with development dependencies installed.

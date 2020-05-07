@@ -86,6 +86,7 @@ export default {
      */
     "default-icons": {
       type: Boolean,
+      // `true`
       default: true
     },
 

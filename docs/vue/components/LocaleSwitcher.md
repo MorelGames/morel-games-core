@@ -7,7 +7,7 @@
 <!-- @vuese:LocaleSwitcher:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|position|The dropdown menu position. Can be [any valid `<b-dropdown>` position](https://buefy.org/documentation/dropdown#api-view).|`String`|`false`|is-top-right|
+|position|The dropdown menu position. Can be [any valid `<b-dropdown>` position](https://buefy.org/documentation/dropdown#api-view).|`String`|`false`|`is-top-right`|
 
 <!-- @vuese:LocaleSwitcher:props:end -->
 

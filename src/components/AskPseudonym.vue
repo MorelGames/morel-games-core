@@ -101,6 +101,7 @@ export default {
      */
     type: {
       type: String,
+      // `is-primary`
       default: "is-primary"
     },
 
@@ -110,6 +111,7 @@ export default {
      */
     size: {
       type: String,
+      // `is-large`
       default: "is-large"
     },
 
@@ -119,6 +121,7 @@ export default {
      */
     position: {
       type: String,
+      // `is-centered`
       default: "is-centered"
     },
 
@@ -127,6 +130,7 @@ export default {
      */
     maxlength: {
       type: Number,
+      // `32`
       default: 32
     }
   },

@@ -75,6 +75,7 @@ export default {
      */
     type: {
       type: String,
+      // `is-light`
       default: "is-light"
     }
   },

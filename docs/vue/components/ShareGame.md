@@ -7,7 +7,7 @@
 <!-- @vuese:ShareGame:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|type|The button & tooltip types. Any Bulma color can be used here.|`String`|`false`|is-light|
+|type|The button & tooltip types. Any Bulma color can be used here.|`String`|`false`|`is-light`|
 
 <!-- @vuese:ShareGame:props:end -->
 

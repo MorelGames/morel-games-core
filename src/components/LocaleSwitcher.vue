@@ -34,6 +34,7 @@ export default {
      */
     position: {
       type: String,
+      // `is-top-right`
       default: "is-top-right"
     }
   },

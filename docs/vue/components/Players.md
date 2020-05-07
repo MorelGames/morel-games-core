@@ -7,7 +7,7 @@
 <!-- @vuese:Players:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|default-icons|If true, will include all default icons (kick and game master).|`Boolean`|`false`|true|
+|default-icons|If true, will include all default icons (kick and game master).|`Boolean`|`false`|`true`|
 |kick-confirm-title|In the kick confirmation dialog, the title of the popup. {name} will be replaced by the kicked player's name. Accepts HTML. If null, will remove the title.|`String`|`false`|A standard and localized text.|
 |kick-confirm-message|In the kick confirmation dialog, the main message of the popup. {name} will be replaced by the kicked player's name. Accepts HTML. If null, will remove the message.|`String`|`false`|A standard and localized text.|
 |kick-confirm-help|In the kick confirmation dialog, another message displayed in gray under the main message. {name} will be replaced by the kicked player's name. Accepts HTML. If null, will remove the help.|`String`|`false`|A standard and localized text.|
