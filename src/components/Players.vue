@@ -36,7 +36,7 @@
           For each player, this slot contains the main label. Binds `player`, the player currently displayed.
         -->
         <slot name="label" v-bind:player="player">
-          <!-- Te player name and a “(you)” mark for the current player, localized. -->
+          <!-- The player name and a “(you)” mark for the current player, localized. -->
           <span
             v-bind:class="{
               'is-offline': !player.online
