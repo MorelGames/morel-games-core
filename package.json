@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "dependencies": {},
   "devDependencies": {
-    "@vuese/cli": "^2.10.0",
+    "@vuese/cli": "^2.14.0",
     "jsdoc": "^3.6.4"
   },
   "peerDependencies": {
