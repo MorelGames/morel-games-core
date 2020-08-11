@@ -6,7 +6,7 @@
   "dependencies": {},
   "devDependencies": {
     "@vuese/cli": "^2.14.0",
-    "jsdoc": "^3.6.4"
+    "jsdoc": "^3.6.5"
   },
   "peerDependencies": {
     "buefy": "^0.8.13",
